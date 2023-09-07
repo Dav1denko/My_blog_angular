@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import {HttpClient} from '@angular/common/http'
-import { User } from "src/app/shared/interfaces";
-import { Observable } from "rxjs";
+import { FbAuthResponse, User } from "src/app/shared/interfaces";
+import { Observable, tap } from "rxjs";
+import { environment } from "src/environments/environment.development";
 
 @Injectable()
 export class AuthService {
@@ -12,7 +13,8 @@ get token(): string{
 }
 
     login(user: User): Observable<any>{
-       return this.http.post('',user)
+       return this.http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`,user)
+    //    .pipe(tap(this.setToken))
     }
 
     logout(){
@@ -23,7 +25,7 @@ get token(): string{
         return !!this.token
     }
 
-    private setToken(){
-
+    private setToken(response:FbAuthResponse){
+console.log(response)
     }
 }
