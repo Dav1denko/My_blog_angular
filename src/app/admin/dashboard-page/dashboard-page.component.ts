@@ -12,6 +12,7 @@ import { PostService } from 'src/app/shared/posts.service';
 export class DashboardPageComponent implements OnInit, OnDestroy {
   posts: Post[] = []
   pSub:Subscription
+  searchStr = ''
 
   constructor(private postService: PostService){}
   
