@@ -33,4 +33,9 @@ return this.http.post(`${environment.fbDbUrl}/posts.json`, post)
 
       }))  
     }
+
+    remove(id?: string): Observable<void>{
+      return this.http.delete<void>(`${environment.fbDbUrl}/posts/${id}.json`)
+
+    }
 }
