@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Post } from 'src/app/shared/interfaces';
 import { PostService } from 'src/app/shared/posts.service';
+import { AlertService } from '../shared/services/alert.service';
 
 
 @Component({
@@ -11,30 +12,31 @@ import { PostService } from 'src/app/shared/posts.service';
 })
 export class DashboardPageComponent implements OnInit, OnDestroy {
   posts: Post[] = []
-  pSub:Subscription
-  dSub:Subscription
+  pSub: Subscription
+  dSub: Subscription
   searchStr = ''
 
-  constructor(private postService: PostService){}
-  
-ngOnInit() {
-  this.pSub = this.postService.getAll().subscribe(posts =>{
-this.posts = posts
-  })
-}
+  constructor(private postService: PostService, private alert: AlertService) { }
 
-remove(id?: string){
-  this.dSub = this.postService.remove(id).subscribe(()=>{
-    this.posts = this.posts.filter(post => post.id !== id)
-  })
-}
-ngOnDestroy() {
-  if(this.pSub){
-    this.pSub.unsubscribe()
+  ngOnInit() {
+    this.pSub = this.postService.getAll().subscribe(posts => {
+      this.posts = posts
+    })
   }
-  if(this.dSub){
-    this.dSub.unsubscribe()
+
+  remove(id?: string) {
+    this.dSub = this.postService.remove(id).subscribe(() => {
+      this.posts = this.posts.filter(post => post.id !== id)
+      this.alert.warning('post was delete')
+    })
   }
-}
+  ngOnDestroy() {
+    if (this.pSub) {
+      this.pSub.unsubscribe()
+    }
+    if (this.dSub) {
+      this.dSub.unsubscribe()
+    }
+  }
 
 }
