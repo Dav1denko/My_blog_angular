@@ -16,7 +16,7 @@
 <quill-editor formControlName="text"></quill-editor>
     </div>
 
-    <button class="btn btn-primary" type="submit" [disabled]="form.invalid">update</button>
+    <button class="btn btn-primary" type="submit" [disabled]="form.invalid || submitted">update</button>
 </form>
 </div>
 
